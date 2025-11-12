@@ -1,22 +1,24 @@
-import { createFileRoute, redirect } from "@tanstack/react-router"
-import { useAuth } from "../context/authContext"
+import { createFileRoute } from "@tanstack/react-router"
+import { Navbar } from "../components/layout/Navbar"
+import { Footer } from "../components/layout/Footer"
+import { Hero } from "../components/landing/hero"
+import { About } from "../components/landing/about"
+import { Services } from "../components/landing/services"
+import { Contact } from "../components/landing/contact"
 
 export const Route = createFileRoute("/")({
-    component: RouteComponent,
-    beforeLoad: async ({ location, context }) => {
-        const { isLoading, accessToken } = context.auth
-        if (!accessToken && !isLoading) {
-            throw redirect({
-                to: "/sign-in",
-                search: {
-                    redirect: location.href,
-                },
-            })
-        }
-    },
+    component: LandingPage,
 })
 
-function RouteComponent() {
-    const { user } = useAuth()
-    return <div>Hello {user?.fullName}</div>
+function LandingPage() {
+    return (
+        <div className="bg-background min-h-screen">
+            <Navbar />
+            <Hero />
+            <About />
+            <Services />
+            <Contact />
+            <Footer />
+        </div>
+    )
 }

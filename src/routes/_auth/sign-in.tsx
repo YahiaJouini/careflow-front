@@ -33,9 +33,9 @@ function SignIn() {
                 values,
             )
 
-            setAccessToken(data.data.accessToken)
+            setAccessToken(data.data?.tokens?.accessToken)
             navigate({
-                to: "/",
+                to: "/dashboard",
             })
 
             toast.success("Login successful")

@@ -33,16 +33,16 @@ export default function AuthProvider({
     children: React.ReactNode
 }) {
     const [accessToken, setAccessToken] = useState<string | null>(cookies.get())
+    const [interceptorReady, setInterceptorsReady] = useState(false)
     const queryClient = useQueryClient()
 
-    console.log("Access Token:", accessToken)
     const { data: user = null, isLoading } = useQuery<User | null>({
         queryKey: ["user"],
         queryFn: async () => {
-            const { data } = await apiClient.get<ServerResponse>("/user")
+            const { data } = await apiClient.get<ServerResponse>("/users")
             return data.data
         },
-        enabled: !!accessToken,
+        enabled: !!accessToken && interceptorReady,
         retry: false,
     })
 
@@ -109,6 +109,8 @@ export default function AuthProvider({
                 return Promise.reject(error)
             },
         )
+
+        setInterceptorsReady(true)
 
         return () => {
             apiClient.interceptors.request.eject(requestInterceptor)

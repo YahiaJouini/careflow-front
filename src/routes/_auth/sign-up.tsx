@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
 import { Lock, Mail, User } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -26,14 +26,18 @@ function SignUp() {
 
     const { setAccessToken } = useAuth()
 
+    const navigate = useNavigate()
     const onSubmit = async (values: SignUpType) => {
         try {
             const { data } = await apiClient.post<ServerResponse>(
                 "/auth/register",
                 values,
             )
-            setAccessToken(data.data.accessToken)
+            setAccessToken(data.data?.tokens?.accessToken)
             toast.success("Account created successfully")
+            navigate({
+                to: "/dashboard",
+            })
         } catch (err) {
             let message = "An unexpected error occurred"
             if (axios.isAxiosError(err)) {

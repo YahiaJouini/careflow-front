@@ -8,7 +8,6 @@ import { createAppRouter } from "./router"
 
 function InnerApp() {
     const auth = useAuth()
-    console.log("Auth state:", auth)
     if (!auth.accessToken && auth.isLoading) {
         return (
             <div className="flex-center h-screen w-full">

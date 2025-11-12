@@ -140,11 +140,11 @@
 }
 
 @theme {
-   --color-mainBg: #1C1C1C;
-   --color-lightBg: #FFFFFF0D;
-   --color-theme: #8284FF;
+   --color-mainBg: #1c1c1c;
+   --color-lightBg: #ffffff0d;
+   --color-theme: #8284ff;
    --color-mainText: white;
-   --color-input: #ffffff1a
+   --color-input: #ffffff1a;
 }
 
 input:-webkit-autofill,

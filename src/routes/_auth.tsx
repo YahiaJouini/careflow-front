@@ -1,21 +1,21 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import AuthImagePattern from "../components/auth/AuthImagePattern";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
+import AuthImagePattern from "../components/auth/AuthImagePattern"
 
 export const Route = createFileRoute("/_auth")({
     component: LayoutComponent,
     beforeLoad: async ({ location, context }) => {
-        // if authenticated, redirect to home
-        const { accessToken } = context.auth;
+        // if authenticated, redirect to dashboard
+        const { accessToken } = context.auth
         if (accessToken) {
             throw redirect({
-                to: "/",
+                to: "/dashboard",
                 search: {
                     redirect: location.href,
                 },
-            });
+            })
         }
     },
-});
+})
 
 function LayoutComponent() {
     return (
@@ -30,5 +30,5 @@ function LayoutComponent() {
                 subtitle="Create an account to start sharing your thoughts with the world"
             />
         </div>
-    );
+    )
 }

@@ -5,67 +5,69 @@ import {
     useContext,
     useEffect,
     useMemo,
-    useRef,
     useState,
 } from "react"
 import { apiClient } from "../lib/axios"
 import { errorToasts } from "../lib/error-toasts"
 import { User } from "../types/user"
 import { AuthState } from "../types/auth"
+import { ServerResponse } from "../types/global"
 
 const AuthContext = createContext<AuthState | null>(null)
+
+// document cookie helpers
+const cookies = {
+    get: (): string | null =>
+        document.cookie.match(/access_token=([^;]+)/)?.[1] || null,
+    set: (token: string): void => {
+        document.cookie = `access_token=${token}; path=/; max-age=${15 * 60}; SameSite=Strict`
+    },
+    clear: (): void => {
+        document.cookie = "access_token=; path=/; max-age=0"
+    },
+}
 
 export default function AuthProvider({
     children,
 }: {
     children: React.ReactNode
 }) {
-    // access token and user only stored in memory
-    const [accessToken, setAccessToken] = useState<string | null>(null)
-    const [isFetchingToken, setIsFetchingToken] = useState(false)
-
-    const refreshPromise = useRef<Promise<string | null> | null>(null)
+    const [accessToken, setAccessToken] = useState<string | null>(cookies.get())
     const queryClient = useQueryClient()
 
-    const { data: user = null, isLoading: isFetchingUser } =
-        useQuery<User | null>({
-            queryKey: ["user", accessToken],
-            queryFn: async () => {
-                const { data } = await apiClient.get("/user")
-                return data.data
-            },
-            enabled: !!accessToken,
-            retry: 2,
-        })
+    console.log("Access Token:", accessToken)
+    const { data: user = null, isLoading } = useQuery<User | null>({
+        queryKey: ["user"],
+        queryFn: async () => {
+            const { data } = await apiClient.get<ServerResponse>("/user")
+            return data.data
+        },
+        enabled: !!accessToken,
+        retry: false,
+    })
+
+    const updateToken = useCallback((newToken: string | null) => {
+        if (newToken) {
+            cookies.set(newToken)
+            setAccessToken(newToken)
+        } else {
+            cookies.clear()
+            setAccessToken(null)
+        }
+    }, [])
 
     const logout = useCallback(async () => {
         try {
             await apiClient.post("/auth/logout")
-            setAccessToken(null)
-            queryClient.clear()
         } catch (err) {
-            console.log(err)
+            console.error("Logout error:", err)
+        } finally {
+            updateToken(null)
+            queryClient.clear()
         }
-    }, [queryClient])
+    }, [queryClient, updateToken])
 
     useEffect(() => {
-        // set access token if user refreshes the page and is already logged in
-        const initializeAuth = async () => {
-            try {
-                setIsFetchingToken(true)
-                const { data } = await apiClient.get("/auth/refresh-token", {
-                    timeout: 5000,
-                })
-                setAccessToken(data.data ?? null)
-            } catch (err) {
-                console.error("Token refresh failed:", err)
-                setAccessToken(null)
-            } finally {
-                setIsFetchingToken(false)
-            }
-        }
-
-        initializeAuth()
         const requestInterceptor = apiClient.interceptors.request.use(
             (config) => {
                 if (accessToken) {
@@ -73,7 +75,6 @@ export default function AuthProvider({
                 }
                 return config
             },
-            (error) => Promise.reject(error),
         )
 
         const responseInterceptor = apiClient.interceptors.response.use(
@@ -81,38 +82,31 @@ export default function AuthProvider({
             async (error) => {
                 const originalRequest = error.config
                 const status = error.response?.status
-                const message = error.response?.data?.error || "An error occurred"
 
-                if (status === 401 && !originalRequest._retry && !isFetchingToken) {
+                if (status === 401 && !originalRequest._retry) {
                     originalRequest._retry = true
-                    if (!refreshPromise.current) {
-                        refreshPromise.current = apiClient
-                            .get("/auth/refresh-token")
-                            .then(({ data }) => {
-                                refreshPromise.current = null
-                                if (!data.data) {
-                                    throw new Error("No access token received")
-                                }
-                                setAccessToken(data.data)
-                                return data.data
-                            })
-                            .catch((err) => {
-                                refreshPromise.current = null
-                                logout()
-                                return Promise.reject(err)
-                            })
-                    }
+
                     try {
-                        const newToken = await refreshPromise.current
-                        originalRequest.headers.Authorization = `Bearer ${newToken}`
+                        const { data } = await apiClient.post<ServerResponse>(
+                            "/auth/refresh",
+                            {
+                                token: accessToken,
+                            },
+                        )
+                        updateToken(data.data)
+                        originalRequest.headers.Authorization = `Bearer ${data.data.accessToken}`
                         return apiClient(originalRequest)
-                    } catch (err) {
-                        return Promise.reject(err)
+                    } catch (refreshError) {
+                        logout()
+                        return Promise.reject(refreshError)
                     }
-                } else {
-                    errorToasts(status, message)
-                    return Promise.reject(error)
                 }
+
+                errorToasts(
+                    status,
+                    error.response?.data?.error || "An error occurred",
+                )
+                return Promise.reject(error)
             },
         )
 
@@ -120,26 +114,19 @@ export default function AuthProvider({
             apiClient.interceptors.request.eject(requestInterceptor)
             apiClient.interceptors.response.eject(responseInterceptor)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [accessToken, logout, updateToken])
 
-    const contextValue = useMemo(
+    const value = useMemo(
         (): AuthState => ({
-            accessToken,
             user,
-            setAccessToken,
-            isFetchingUser,
+            isLoading,
             logout,
-            isFetchingToken,
+            setAccessToken: updateToken,
+            accessToken,
         }),
-        [accessToken, isFetchingUser, user, logout, isFetchingToken],
+        [user, isLoading, logout, updateToken, accessToken],
     )
-
-    return (
-        <AuthContext.Provider value={contextValue}>
-            {children}
-        </AuthContext.Provider>
-    )
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

@@ -4,14 +4,8 @@ import { useAuth } from "../context/authContext"
 export const Route = createFileRoute("/")({
     component: RouteComponent,
     beforeLoad: async ({ location, context }) => {
-        const { accessToken, isFetchingToken } = context.auth
-        console.log(
-            "accessToken : ",
-            accessToken,
-            " isFetchingToken : ",
-            isFetchingToken,
-        )
-        if (!accessToken && !isFetchingToken) {
+        const { isLoading, accessToken } = context.auth
+        if (!accessToken && !isLoading) {
             throw redirect({
                 to: "/sign-in",
                 search: {

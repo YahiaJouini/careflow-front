@@ -1,14 +1,14 @@
 import { Link } from "@tanstack/react-router"
 import { useAuth } from "../../context/authContext"
 
-export default function GetStarted() {
-    const { user } = useAuth()
-    return (
-        <Link
-            to="/sign-in"
-            className="bg-primary text-primary-foreground hover:bg-opacity-90 hover:shadow-primary/20 rounded-md px-5 py-2.5 text-[14px] font-semibold transition-all hover:shadow-lg"
-        >
-            {user ? "Dashboard" : "Get Started"}
-        </Link>
-    )
+export default function GetStarted({ text }: { text?: string }) {
+   const { user } = useAuth()
+   return (
+      <Link
+         to="/sign-in"
+         className="bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-primary/30 rounded-lg px-8 py-3 font-semibold transition-all hover:shadow-lg"
+      >
+         {user ? "Dashboard" : (text ?? "Get Started")}
+      </Link>
+   )
 }

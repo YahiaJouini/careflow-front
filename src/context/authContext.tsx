@@ -8,10 +8,12 @@ import {
     useState,
 } from "react"
 import { apiClient } from "../lib/axios"
-import { errorToasts } from "../lib/error-toasts"
 import { User } from "../types/user"
 import { AuthState } from "../types/auth"
 import { ServerResponse } from "../types/global"
+import { toast } from "sonner"
+import axios from "axios"
+import { USER_QUERY_KEY } from "../lib/constants"
 
 const AuthContext = createContext<AuthState | null>(null)
 
@@ -37,7 +39,7 @@ export default function AuthProvider({
     const queryClient = useQueryClient()
 
     const { data: user = null, isLoading } = useQuery<User | null>({
-        queryKey: ["user"],
+        queryKey: [USER_QUERY_KEY],
         queryFn: async () => {
             const { data } = await apiClient.get<ServerResponse>("/users")
             return data.data
@@ -46,21 +48,36 @@ export default function AuthProvider({
         retry: false,
     })
 
-    const updateToken = useCallback((newToken: string | null) => {
-        if (newToken) {
-            cookies.set(newToken)
-            setAccessToken(newToken)
-        } else {
-            cookies.clear()
-            setAccessToken(null)
-        }
-    }, [])
+    const updateToken = useCallback(
+        (newToken: string | null) => {
+            if (newToken) {
+                cookies.set(newToken)
+                setAccessToken(newToken)
+            } else {
+                cookies.clear()
+                setAccessToken(null)
+            }
+            queryClient.invalidateQueries({ queryKey: [USER_QUERY_KEY] })
+        },
+        [queryClient],
+    )
 
     const logout = useCallback(async () => {
         try {
             await apiClient.post("/auth/logout")
         } catch (err) {
-            console.error("Logout error:", err)
+            if (axios.isAxiosError(err)) {
+                toast.error("Logout failed", {
+                    description:
+                        err.response?.data.message ||
+                        "An error occurred during logout",
+                })
+                return
+            }
+            toast.error("Logout failed", {
+                description: "An unexpected error occurred during logout",
+            })
+            return
         } finally {
             updateToken(null)
             queryClient.clear()
@@ -68,6 +85,7 @@ export default function AuthProvider({
     }, [queryClient, updateToken])
 
     useEffect(() => {
+        console.log("setting up interceptors")
         const requestInterceptor = apiClient.interceptors.request.use(
             (config) => {
                 if (accessToken) {
@@ -93,19 +111,15 @@ export default function AuthProvider({
                                 token: accessToken,
                             },
                         )
-                        updateToken(data.data)
+                        updateToken(data.data.accessToken)
                         originalRequest.headers.Authorization = `Bearer ${data.data.accessToken}`
                         return apiClient(originalRequest)
                     } catch (refreshError) {
-                        logout()
+                        console.log("refresh error ", refreshError)
                         return Promise.reject(refreshError)
                     }
                 }
 
-                errorToasts(
-                    status,
-                    error.response?.data?.error || "An error occurred",
-                )
                 return Promise.reject(error)
             },
         )

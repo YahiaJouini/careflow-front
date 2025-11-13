@@ -12,6 +12,8 @@ import { INITIAL_VALUES, SignUpSchema, SignUpType } from "../../schemas/sign-up"
 import { useAuth } from "../../context/authContext"
 import { ServerResponse } from "../../types/global"
 import axios from "axios"
+import { useQueryClient } from "@tanstack/react-query"
+import { USER_QUERY_KEY } from "../../lib/constants"
 
 export const Route = createFileRoute("/_auth/sign-up")({
     component: SignUp,
@@ -25,6 +27,7 @@ function SignUp() {
     })
 
     const { setAccessToken } = useAuth()
+    const queryClient = useQueryClient()
 
     const navigate = useNavigate()
     const onSubmit = async (values: SignUpType) => {
@@ -33,7 +36,14 @@ function SignUp() {
                 "/auth/register",
                 values,
             )
-            setAccessToken(data.data?.tokens?.accessToken)
+            const token = data.data?.tokens?.accessToken
+            const user = data.data?.user
+
+            setAccessToken(token)
+            if (user) {
+                queryClient.setQueryData([USER_QUERY_KEY], user)
+            }
+
             toast.success("Account created successfully")
             navigate({
                 to: "/dashboard",
@@ -45,7 +55,7 @@ function SignUp() {
                     err.response?.data?.message ||
                     "An error occurred during account creation"
             }
-            toast.error(message)
+            toast.error("Sign up failed", { description: message })
             return
         }
     }
@@ -53,7 +63,6 @@ function SignUp() {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit, (err) => {
-                    console.log(err)
                     toast.error("Please fill the form correctly", {
                         description: err.root?.message,
                     })

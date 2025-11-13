@@ -12,6 +12,8 @@ import { useAuth } from "../../context/authContext"
 import { apiClient } from "../../lib/axios"
 import { INITIAL_VALUES, SignInSchema, SignInType } from "../../schemas/sign-in"
 import { ServerResponse } from "../../types/global"
+import { USER_QUERY_KEY } from "../../lib/constants"
+import { useQueryClient } from "@tanstack/react-query"
 
 export const Route = createFileRoute("/_auth/sign-in")({
     component: SignIn,
@@ -26,29 +28,35 @@ function SignIn() {
     const { setAccessToken } = useAuth()
     const navigate = useNavigate()
 
+    const queryClient = useQueryClient()
+
     const onSubmit = async (values: SignInType) => {
         try {
             const { data } = await apiClient.post<ServerResponse>(
                 "/auth/login",
                 values,
             )
+            const token = data.data?.tokens?.accessToken
+            const user = data.data?.user
 
-            setAccessToken(data.data?.tokens?.accessToken)
+            setAccessToken(token)
+            if (user) {
+                queryClient.setQueryData([USER_QUERY_KEY], user)
+            }
+
+            toast.success("Signed in successfully")
             navigate({
                 to: "/dashboard",
             })
-
-            toast.success("Login successful")
         } catch (err) {
             let message = "An unexpected error occurred during login"
             if (axios.isAxiosError(err)) {
                 message =
                     err.response?.data?.message || "An error occurred during login"
-                toast.error("Login failed", {
-                    description: message,
-                })
             }
-            toast.error(message)
+            toast.error("Sign in failed", {
+                description: message,
+            })
         }
     }
 

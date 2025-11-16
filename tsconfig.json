@@ -11,24 +11,11 @@
    "compilerOptions": {
       "baseUrl": ".",
       "paths": {
-         "@/*": [
-            "src/*"
-         ],
-         "~components/*": [
-            "src/components/*"
-         ],
-         "~lib/*": [
-            "src/lib/*"
-         ],
-         "~routes/*": [
-            "src/routes/*"
-         ],
-         "~schemas/*": [
-            "src/schemas/*"
-         ],
-         "~/*": [
-            "src/*"
-         ]
+         "@/*": ["src/*"],
+         "~components/*": ["src/components/*"],
+         "~lib/*": ["src/lib/*"],
+         "~routes/*": ["src/routes/*"],
+         "~schemas/*": ["src/schemas/*"]
       }
    }
 }

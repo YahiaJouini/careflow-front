@@ -6,17 +6,22 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 
 // https://vite.dev/config/
 export default defineConfig({
-   plugins: [
-      react(),
-      TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
-      tailwindcss(),
-   ],
-   server: {
-      port: 3000,
-   },
-   resolve: {
-      alias: {
-         "@": path.resolve(__dirname, "./src"),
-      },
-   },
+    plugins: [
+        react(),
+        TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
+        tailwindcss(),
+    ],
+    server: {
+        port: 3000,
+    },
+
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "./src"),
+            "~components": path.resolve(__dirname, "./src/components"),
+            "~lib": path.resolve(__dirname, "./src/lib"),
+            "~routes": path.resolve(__dirname, "./src/routes"),
+            "~schemas": path.resolve(__dirname, "./src/schemas"),
+        },
+    },
 })

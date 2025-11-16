@@ -4,4 +4,5 @@ export type User = {
     email: string
     image: string | null
     createdAt: string
+    bio?: string | null
 }

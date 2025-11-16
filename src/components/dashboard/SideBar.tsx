@@ -8,22 +8,21 @@ import {
     FileText,
     BarChart3,
 } from "lucide-react"
-import { cn } from "../../lib/utils"
-import { User } from "../../types/user"
+import { cn } from "@/lib/utils"
+import { useAuth } from "@/context/authContext"
+import { User } from "@/types/user"
 
-type DashboardSidebarProps = {
-    user: User
-    active: string
-    onActive: (id: string) => void
-    onLogout: () => void
-}
+export function Sidebar() {
+    const { logout } = useAuth()
+    const user: User = {
+        id: 1,
+        fullName: "John Doe",
+        email: "idk@gmail.com",
+        image: "https://i.pravatar.cc/150?img=3",
+        createdAt: "2023-01-01T00:00:00.000Z",
+    }
 
-export function DashboardSidebar({
-    user,
-    active,
-    onActive,
-    onLogout,
-}: DashboardSidebarProps) {
+    const [active, setActive] = useState("appointments")
     const [isOpen, setIsOpen] = useState(true)
 
     const navItems = [
@@ -71,7 +70,7 @@ export function DashboardSidebar({
                         return (
                             <button
                                 key={item.id}
-                                onClick={() => onActive(item.id)}
+                                onClick={() => setActive(item.id)}
                                 className={cn(
                                     "text-mainText flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-semibold transition-colors",
                                     isActive ? "bg-theme" : "hover:bg-lightBg",
@@ -104,7 +103,7 @@ export function DashboardSidebar({
 
                     {isOpen && (
                         <button
-                            onClick={onLogout}
+                            onClick={logout}
                             className="flex w-full items-center gap-2 rounded-lg bg-red-500 px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-red-700"
                         >
                             <LogOut className="h-4 w-4" />

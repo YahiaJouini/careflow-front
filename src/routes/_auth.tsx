@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 import AuthImagePattern from "../components/auth/AuthImagePattern"
 
 export const Route = createFileRoute("/_auth")({
-    component: LayoutComponent,
+    component: Layout,
     beforeLoad: async ({ location, context }) => {
         // if authenticated, redirect to dashboard
         const { accessToken } = context.auth
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_auth")({
     },
 })
 
-function LayoutComponent() {
+function Layout() {
     return (
         <div className="grid h-screen md:grid-cols-2">
             <div className="flex-center bg-lightBg h-full w-full">

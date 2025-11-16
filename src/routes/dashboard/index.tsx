@@ -1,36 +1,38 @@
-import { createFileRoute, redirect } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { useAuth } from "../../context/authContext"
 import { DashboardSidebar } from "../../components/dashboard/SideBar"
+import { User } from "../../types/user"
 
 export const Route = createFileRoute("/dashboard/")({
     component: DashboardRoute,
-    beforeLoad: async ({ location, context }) => {
-        const { isLoading, accessToken } = context.auth
-        if (!accessToken && !isLoading) {
-            throw redirect({
-                to: "/sign-in",
-                search: { redirect: location.href },
-            })
-        }
-    },
+    // beforeLoad: async ({ location, context }) => {
+    //     const { isLoading, accessToken } = context.auth
+    //     if (!accessToken && !isLoading) {
+    //         throw redirect({
+    //             to: "/sign-in",
+    //             search: { redirect: location.href },
+    //         })
+    //     }
+    // },
 })
 
 function DashboardRoute() {
-    const { user, logout } = useAuth()
+    const { logout } = useAuth()
+    const user: User = {
+        id: 1,
+        fullName: "John Doe",
+        email: "idk@gmail.com",
+        image: "https://i.pravatar.cc/150?img=3",
+        createdAt: "2023-01-01T00:00:00.000Z",
+    }
     const [active, setActive] = useState("appointments")
 
     if (!user) {
         return <div>Loading...</div>
     }
     return (
-        <div
-            className="flex min-h-screen"
-            style={{
-                backgroundColor: "var(--color-mainBg)",
-                color: "var(--color-mainText)",
-            }}
-        >
+        <div className="flex min-h-screen">
             <DashboardSidebar
                 user={user}
                 active={active}

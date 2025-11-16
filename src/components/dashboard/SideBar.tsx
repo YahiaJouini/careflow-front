@@ -95,7 +95,7 @@ export function DashboardSidebar({
                                 <p className="text-mainText truncate text-sm font-semibold">
                                     {user.fullName}
                                 </p>
-                                <p className="truncate text-xs text-white/50">
+                                <p className="text-mainText/50 truncate text-xs">
                                     {user.email}
                                 </p>
                             </div>

@@ -6,71 +6,88 @@
 
 :root {
    --radius: 0.625rem;
-   --background: oklch(1 0 0);
-   --foreground: oklch(0.145 0 0);
-   --card: oklch(1 0 0);
-   --card-foreground: oklch(0.145 0 0);
+
+   /* Light Mode - Calming Medical Theme */
+   --background: oklch(0.98 0.01 90); /* Soft warm cream */
+   --foreground: oklch(0.18 0.03 240); /* Deep blue-gray text */
+   --card: oklch(1 0 0); /* White cards */
+   --card-foreground: oklch(0.18 0.03 240);
    --popover: oklch(1 0 0);
-   --popover-foreground: oklch(0.145 0 0);
-   --primary: oklch(0.205 0 0);
-   --primary-foreground: oklch(0.985 0 0);
-   --secondary: oklch(0.97 0 0);
-   --secondary-foreground: oklch(0.205 0 0);
-   --muted: oklch(0.97 0 0);
-   --muted-foreground: oklch(0.556 0 0);
-   --accent: oklch(0.97 0 0);
-   --accent-foreground: oklch(0.205 0 0);
-   --destructive: oklch(0.577 0.245 27.325);
-   --border: oklch(0.922 0 0);
-   --input: oklch(0.922 0 0);
-   --ring: oklch(0.708 0 0);
-   --chart-1: oklch(0.646 0.222 41.116);
-   --chart-2: oklch(0.6 0.118 184.704);
-   --chart-3: oklch(0.398 0.07 227.392);
-   --chart-4: oklch(0.828 0.189 84.429);
-   --chart-5: oklch(0.769 0.188 70.08);
-   --sidebar: oklch(0.985 0 0);
-   --sidebar-foreground: oklch(0.145 0 0);
-   --sidebar-primary: oklch(0.205 0 0);
-   --sidebar-primary-foreground: oklch(0.985 0 0);
-   --sidebar-accent: oklch(0.97 0 0);
-   --sidebar-accent-foreground: oklch(0.205 0 0);
-   --sidebar-border: oklch(0.922 0 0);
-   --sidebar-ring: oklch(0.708 0 0);
+   --popover-foreground: oklch(0.18 0.03 240);
+   --primary: oklch(0.5 0.18 200); /* Healing teal */
+   --primary-foreground: oklch(0.98 0 0);
+   --secondary: oklch(0.82 0.06 180); /* Soft mint */
+   --secondary-foreground: oklch(0.2 0.04 200);
+   --muted: oklch(0.93 0.02 180); /* Light gray */
+   --muted-foreground: oklch(0.45 0.03 200);
+   --accent: oklch(0.7 0.15 165); /* Gentle green */
+   --accent-foreground: oklch(0.98 0 0);
+   --destructive: oklch(0.6 0.25 20); /* Alert red */
+   --border: oklch(0.88 0.02 180);
+   --input: oklch(0.95 0.02 190);
+   --ring: oklch(0.5 0.18 200);
+   --chart-1: oklch(0.5 0.18 200);
+   --chart-2: oklch(0.65 0.16 150);
+   --chart-3: oklch(0.7 0.15 165);
+   --chart-4: oklch(0.58 0.18 40);
+   --chart-5: oklch(0.55 0.14 260);
+   --sidebar: oklch(1 0 0);
+   --sidebar-foreground: oklch(0.18 0.03 240);
+   --sidebar-primary: oklch(0.5 0.18 200);
+   --sidebar-primary-foreground: oklch(0.98 0 0);
+   --sidebar-accent: oklch(0.7 0.15 165);
+   --sidebar-accent-foreground: oklch(0.98 0 0);
+   --sidebar-border: oklch(0.88 0.02 180);
+   --sidebar-ring: oklch(0.5 0.18 200);
+
+   /* Custom Medical Variables - Light */
+   --mainBg: oklch(0.98 0.01 90);
+   --lightBg: oklch(0.92 0.02 180);
+   --theme: oklch(0.5 0.18 200);
+   --mainText: oklch(0.18 0.03 240);
+   --inputBg: oklch(0.95 0.02 190);
 }
 
 .dark {
-   --background: oklch(0.145 0 0);
-   --foreground: oklch(0.985 0 0);
-   --card: oklch(0.205 0 0);
-   --card-foreground: oklch(0.985 0 0);
-   --popover: oklch(0.205 0 0);
-   --popover-foreground: oklch(0.985 0 0);
-   --primary: oklch(0.922 0 0);
-   --primary-foreground: oklch(0.205 0 0);
-   --secondary: oklch(0.269 0 0);
-   --secondary-foreground: oklch(0.985 0 0);
-   --muted: oklch(0.269 0 0);
-   --muted-foreground: oklch(0.708 0 0);
-   --accent: oklch(0.269 0 0);
-   --accent-foreground: oklch(0.985 0 0);
-   --destructive: oklch(0.704 0.191 22.216);
-   --border: oklch(1 0 0 / 10%);
-   --input: oklch(1 0 0 / 15%);
-   --ring: oklch(0.556 0 0);
-   --chart-1: oklch(0.488 0.243 264.376);
-   --chart-2: oklch(0.696 0.17 162.48);
-   --chart-3: oklch(0.769 0.188 70.08);
-   --chart-4: oklch(0.627 0.265 303.9);
-   --chart-5: oklch(0.645 0.246 16.439);
-   --sidebar: oklch(0.205 0 0);
-   --sidebar-foreground: oklch(0.985 0 0);
-   --sidebar-primary: oklch(0.488 0.243 264.376);
-   --sidebar-primary-foreground: oklch(0.985 0 0);
-   --sidebar-accent: oklch(0.269 0 0);
-   --sidebar-accent-foreground: oklch(0.985 0 0);
-   --sidebar-border: oklch(1 0 0 / 10%);
-   --sidebar-ring: oklch(0.556 0 0);
+   /* Dark Mode - Deep Healing Theme */
+   --background: oklch(0.12 0.04 240); /* Deep navy background */
+   --foreground: oklch(0.92 0.02 200); /* Light text */
+   --card: oklch(0.22 0.04 235); /* Dark card */
+   --card-foreground: oklch(0.92 0.02 200);
+   --popover: oklch(0.22 0.04 235);
+   --popover-foreground: oklch(0.92 0.02 200);
+   --primary: oklch(0.6 0.2 195); /* Bright teal */
+   --primary-foreground: oklch(0.12 0.03 240);
+   --secondary: oklch(0.3 0.05 210); /* Dark mint */
+   --secondary-foreground: oklch(0.85 0.04 180);
+   --muted: oklch(0.28 0.04 230); /* Dark gray */
+   --muted-foreground: oklch(0.68 0.03 190);
+   --accent: oklch(0.72 0.14 160); /* Vibrant green accent */
+   --accent-foreground: oklch(0.12 0.03 240);
+   --destructive: oklch(0.65 0.25 25); /* Softer alert red */
+   --border: oklch(0.28 0.04 230);
+   --input: oklch(0.25 0.04 235);
+   --ring: oklch(0.6 0.2 195);
+   --chart-1: oklch(0.6 0.2 195);
+   --chart-2: oklch(0.7 0.18 155);
+   --chart-3: oklch(0.72 0.14 160);
+   --chart-4: oklch(0.65 0.2 45);
+   --chart-5: oklch(0.6 0.16 265);
+   --sidebar: oklch(0.15 0.04 238);
+   --sidebar-foreground: oklch(0.92 0.02 200);
+   --sidebar-primary: oklch(0.6 0.2 195);
+   --sidebar-primary-foreground: oklch(0.12 0.03 240);
+   --sidebar-accent: oklch(0.72 0.14 160);
+   --sidebar-accent-foreground: oklch(0.12 0.03 240);
+   --sidebar-border: oklch(0.28 0.04 230);
+   --sidebar-ring: oklch(0.6 0.2 195);
+
+   /* Custom Medical Variables - Dark */
+   --mainBg: oklch(0.12 0.04 240);
+   --lightBg: oklch(0.22 0.04 235);
+   --theme: oklch(0.6 0.2 195);
+   --mainText: oklch(0.92 0.02 200);
+   --inputBg: oklch(0.25 0.04 235);
 }
 
 @theme inline {
@@ -109,6 +126,11 @@
    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
    --color-sidebar-border: var(--sidebar-border);
    --color-sidebar-ring: var(--sidebar-ring);
+   --color-mainBg: var(--mainBg);
+   --color-lightBg: var(--lightBg);
+   --color-theme: var(--theme);
+   --color-mainText: var(--mainText);
+   --color-inputBg: var(--inputBg);
 }
 
 @layer base {
@@ -141,14 +163,6 @@
    .vertical-align {
       @apply flex items-center gap-3;
    }
-}
-
-@theme {
-   --color-mainBg: #1c1c1c;
-   --color-lightBg: #ffffff0d;
-   --color-theme: #8284ff;
-   --color-mainText: white;
-   --color-input: #ffffff1a;
 }
 
 input:-webkit-autofill,

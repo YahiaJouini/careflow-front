@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import {
     createContext,
     useCallback,
@@ -8,12 +8,11 @@ import {
     useState,
 } from "react"
 import { apiClient } from "../lib/axios"
-import { User } from "../types/user"
 import { AuthState } from "../types/auth"
 import { ServerResponse } from "../types/global"
 import { toast } from "sonner"
 import axios from "axios"
-import { USER_QUERY_KEY } from "../lib/constants"
+import { USER, USER_QUERY_KEY } from "../lib/constants"
 
 const AuthContext = createContext<AuthState | null>(null)
 
@@ -35,18 +34,18 @@ export default function AuthProvider({
     children: React.ReactNode
 }) {
     const [accessToken, setAccessToken] = useState<string | null>(cookies.get())
-    const [interceptorReady, setInterceptorsReady] = useState(false)
+    // const [interceptorReady, setInterceptorsReady] = useState(false)
     const queryClient = useQueryClient()
 
-    const { data: user = null, isLoading } = useQuery<User | null>({
-        queryKey: [USER_QUERY_KEY],
-        queryFn: async () => {
-            const { data } = await apiClient.get<ServerResponse>("/users")
-            return data.data
-        },
-        enabled: !!accessToken && interceptorReady,
-        retry: false,
-    })
+    // const { data: user = null, isLoading } = useQuery<User | null>({
+    //     queryKey: [USER_QUERY_KEY],
+    //     queryFn: async () => {
+    //         const { data } = await apiClient.get<ServerResponse>("/users")
+    //         return data.data
+    //     },
+    //     enabled: !!accessToken && interceptorReady,
+    //     retry: false,
+    // })
 
     const updateToken = useCallback(
         (newToken: string | null) => {
@@ -124,7 +123,7 @@ export default function AuthProvider({
             },
         )
 
-        setInterceptorsReady(true)
+        // setInterceptorsReady(true)
 
         return () => {
             apiClient.interceptors.request.eject(requestInterceptor)
@@ -134,13 +133,13 @@ export default function AuthProvider({
 
     const value = useMemo(
         (): AuthState => ({
-            user,
-            isLoading,
+            user: USER,
+            isLoading: false,
             logout,
             setAccessToken: updateToken,
             accessToken,
         }),
-        [user, isLoading, logout, updateToken, accessToken],
+        [logout, updateToken, accessToken],
     )
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

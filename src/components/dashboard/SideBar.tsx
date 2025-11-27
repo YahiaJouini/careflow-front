@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router"
 import { ChevronLeft, ChevronRight, LogOut } from "lucide-react"
 import { useState } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 export function Sidebar() {
@@ -44,12 +45,6 @@ export function Sidebar() {
 
    const items = DASHBOARD_LINKS[user.role as UserRole] || []
 
-
-   const AvatarInitial = () => (
-      <div className="bg-theme flex h-10 w-10 items-center justify-center rounded-lg font-semibold text-white shadow-md">
-         {user.firstName.charAt(0).toUpperCase()}
-      </div>
-   )
 
    return (
       <>
@@ -98,19 +93,25 @@ export function Sidebar() {
 
             {/* FOOTER */}
             <div className="border-lightBg border-t p-4">
-               <div className="mb-4 flex items-center gap-3">
-                  <AvatarInitial />
-                  {isOpen && (
-                     <div className="min-w-0 flex-1">
-                        <p className="text-mainText truncate text-sm font-semibold">
-                           {user.firstName} {user.lastName}
-                        </p>
-                        <p className="text-mainText/50 truncate text-xs">
-                           {user.email}
-                        </p>
-                     </div>
-                  )}
-               </div>
+               <div className="flex items-center gap-3 px-2">
+            <Avatar>
+              <AvatarImage src={user?.image} alt={user?.firstName} />
+              <AvatarFallback>
+                {user?.firstName?.[0]}
+                {user?.lastName?.[0]}
+              </AvatarFallback>
+            </Avatar>
+            {isOpen && (
+            <div className="flex flex-col">
+              <span className="text-sm font-medium">
+                {user?.firstName} {user?.lastName}
+              </span>
+              <span className="text-xs text-muted-foreground capitalize">
+                {user?.role}
+              </span>
+            </div>
+            )}
+          </div>
 
                {isOpen && (
                   <button

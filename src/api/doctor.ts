@@ -55,3 +55,11 @@ export const updateAppointment = async (
 export const rejectAppointment = async (id: number): Promise<void> => {
    await apiClient.delete<ApiResponse<void>>(`/doctor/appointments/${id}`)
 }
+
+/**
+ * Get doctor's patients
+ */
+export const getDoctorPatients = async (): Promise<any[]> => {
+   const response = await apiClient.get<ApiResponse<any[]>>("/doctor/patients")
+   return response.data.data
+}

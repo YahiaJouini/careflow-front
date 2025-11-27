@@ -1,6 +1,6 @@
 import {
   Home, Search, Calendar, FileText, Bot, Settings,
-  CalendarClock, UserPlus, Users, UserCircle,
+  CalendarClock, UserPlus, Users,
   LayoutDashboard, Stethoscope, Tag, Scroll
 } from "lucide-react";
 
@@ -19,20 +19,21 @@ export const DASHBOARD_LINKS: Record<UserRole, SidebarLink[]> = {
     { label: 'My Appointments', href: '/dashboard/patient/appointments', icon: Calendar },
     { label: 'Medical History', href: '/dashboard/patient/history', icon: FileText },
     { label: 'AI Assistant', href: '/dashboard/patient/chat', icon: Bot },
-    { label: 'Settings', href: '/dashboard/patient/settings', icon: Settings },
+    { label: 'Profile', href: '/dashboard/settings/profile', icon: Settings },
   ],
   doctor: [
     { label: 'Overview', href: '/dashboard/doctor', icon: Home },
     { label: 'Schedule', href: '/dashboard/doctor/schedule', icon: CalendarClock },
     { label: 'Patient Requests', href: '/dashboard/doctor/requests', icon: UserPlus },
     { label: 'My Patients', href: '/dashboard/doctor/patients', icon: Users },
-    { label: 'Profile', href: '/dashboard/profile', icon: UserCircle },
+    { label: 'Profile', href: '/dashboard/settings/profile', icon: Settings },
   ],
   admin: [
-    { label: 'Dashboard', href: '/dashboard/admin', icon: LayoutDashboard },
+    { label: 'Overview', href: '/dashboard/admin', icon: LayoutDashboard },
     { label: 'Users', href: '/dashboard/admin/users', icon: Users },
     { label: 'Doctors', href: '/dashboard/admin/doctors', icon: Stethoscope },
     { label: 'Specialties', href: '/dashboard/admin/specialties', icon: Tag },
     { label: 'Logs', href: '/dashboard/admin/logs', icon: Scroll },
+    { label: 'Profile', href: '/dashboard/settings/profile', icon: Settings },
   ]
 };

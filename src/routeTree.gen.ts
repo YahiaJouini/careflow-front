@@ -24,6 +24,7 @@ import { Route as AuthSignInRouteImport } from './routes/_auth/sign-in'
 import { Route as DashboardPatientIndexRouteImport } from './routes/dashboard/patient/index'
 import { Route as DashboardDoctorIndexRouteImport } from './routes/dashboard/doctor/index'
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
+import { Route as DashboardSettingsProfileRouteImport } from './routes/dashboard/settings/profile'
 import { Route as DashboardPatientSettingsRouteImport } from './routes/dashboard/patient/settings'
 import { Route as DashboardPatientHistoryRouteImport } from './routes/dashboard/patient/history'
 import { Route as DashboardPatientDoctorsRouteImport } from './routes/dashboard/patient/doctors'
@@ -111,6 +112,12 @@ const DashboardAdminIndexRoute = DashboardAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardAdminRoute,
 } as any)
+const DashboardSettingsProfileRoute =
+  DashboardSettingsProfileRouteImport.update({
+    id: '/settings/profile',
+    path: '/settings/profile',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardPatientSettingsRoute =
   DashboardPatientSettingsRouteImport.update({
     id: '/settings',
@@ -199,6 +206,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/patient/doctors': typeof DashboardPatientDoctorsRoute
   '/dashboard/patient/history': typeof DashboardPatientHistoryRoute
   '/dashboard/patient/settings': typeof DashboardPatientSettingsRoute
+  '/dashboard/settings/profile': typeof DashboardSettingsProfileRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
   '/dashboard/doctor/': typeof DashboardDoctorIndexRoute
   '/dashboard/patient/': typeof DashboardPatientIndexRoute
@@ -223,6 +231,7 @@ export interface FileRoutesByTo {
   '/dashboard/patient/doctors': typeof DashboardPatientDoctorsRoute
   '/dashboard/patient/history': typeof DashboardPatientHistoryRoute
   '/dashboard/patient/settings': typeof DashboardPatientSettingsRoute
+  '/dashboard/settings/profile': typeof DashboardSettingsProfileRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
   '/dashboard/doctor': typeof DashboardDoctorIndexRoute
   '/dashboard/patient': typeof DashboardPatientIndexRoute
@@ -253,6 +262,7 @@ export interface FileRoutesById {
   '/dashboard/patient/doctors': typeof DashboardPatientDoctorsRoute
   '/dashboard/patient/history': typeof DashboardPatientHistoryRoute
   '/dashboard/patient/settings': typeof DashboardPatientSettingsRoute
+  '/dashboard/settings/profile': typeof DashboardSettingsProfileRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
   '/dashboard/doctor/': typeof DashboardDoctorIndexRoute
   '/dashboard/patient/': typeof DashboardPatientIndexRoute
@@ -283,6 +293,7 @@ export interface FileRouteTypes {
     | '/dashboard/patient/doctors'
     | '/dashboard/patient/history'
     | '/dashboard/patient/settings'
+    | '/dashboard/settings/profile'
     | '/dashboard/admin/'
     | '/dashboard/doctor/'
     | '/dashboard/patient/'
@@ -307,6 +318,7 @@ export interface FileRouteTypes {
     | '/dashboard/patient/doctors'
     | '/dashboard/patient/history'
     | '/dashboard/patient/settings'
+    | '/dashboard/settings/profile'
     | '/dashboard/admin'
     | '/dashboard/doctor'
     | '/dashboard/patient'
@@ -336,6 +348,7 @@ export interface FileRouteTypes {
     | '/dashboard/patient/doctors'
     | '/dashboard/patient/history'
     | '/dashboard/patient/settings'
+    | '/dashboard/settings/profile'
     | '/dashboard/admin/'
     | '/dashboard/doctor/'
     | '/dashboard/patient/'
@@ -455,6 +468,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/admin/'
       preLoaderRoute: typeof DashboardAdminIndexRouteImport
       parentRoute: typeof DashboardAdminRoute
+    }
+    '/dashboard/settings/profile': {
+      id: '/dashboard/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/dashboard/settings/profile'
+      preLoaderRoute: typeof DashboardSettingsProfileRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/patient/settings': {
       id: '/dashboard/patient/settings'
@@ -620,6 +640,7 @@ interface DashboardRouteChildren {
   DashboardPatientRoute: typeof DashboardPatientRouteWithChildren
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardSettingsProfileRoute: typeof DashboardSettingsProfileRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
@@ -628,6 +649,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardPatientRoute: DashboardPatientRouteWithChildren,
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardSettingsProfileRoute: DashboardSettingsProfileRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(

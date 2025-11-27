@@ -54,7 +54,7 @@ const Verification = ({ email, from }: Props) => {
                   }
                   return "Email verified successfully"
                },
-            }
+            },
          )
       } finally {
          setEmailVerification({ code: "", loading: false })
@@ -73,7 +73,7 @@ const Verification = ({ email, from }: Props) => {
             {
                loading: "Resending...",
                success: () => "Verification code resent",
-            }
+            },
          )
       } finally {
          setIsResending(false)
@@ -96,7 +96,8 @@ const Verification = ({ email, from }: Props) => {
             value={emailVerification.code}
             maxLength={6}
             className="w-full"
-            pattern={REGEXP_ONLY_DIGITS}>
+            pattern={REGEXP_ONLY_DIGITS}
+         >
             <InputOTPGroup>
                <InputOTPSlot className="h-[56px] w-[56px] text-xl" index={0} />
                <InputOTPSlot className="h-[56px] w-[56px] text-xl" index={1} />
@@ -121,8 +122,8 @@ const Verification = ({ email, from }: Props) => {
             loading={emailVerification.loading}
          />
 
-         <div className="flex items-start gap-2 text-sm  bg-mainBg p-3 rounded-md w-full ">
-            <AlertCircle className="h-[22px] w-[22px] text-red-500 flex-shrink-0 mt-0.5" />
+         <div className="bg-mainBg flex w-full items-start gap-2 rounded-md p-3 text-sm">
+            <AlertCircle className="mt-0.5 h-[22px] w-[22px] flex-shrink-0 text-red-500" />
             <p>
                Please check your spam or junk folder if you don't see the
                verification email in your inbox.
@@ -133,8 +134,9 @@ const Verification = ({ email, from }: Props) => {
             <button
                type="button"
                disabled={emailVerification.loading || isResending}
-               className="cursor-pointer text-theme hover:underline"
-               onClick={handleResendEmail}>
+               className="text-theme cursor-pointer hover:underline"
+               onClick={handleResendEmail}
+            >
                {isResending ? "Resending..." : "Resend"}
             </button>
          </p>

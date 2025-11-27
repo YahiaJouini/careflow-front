@@ -1,42 +1,34 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, redirect } from "@tanstack/react-router"
 
-import { User } from "../../types/user"
 export const Route = createFileRoute("/dashboard/")({
-    component: Home,
+   beforeLoad: ({ context }) => {
+      const { user, isLoading, accessToken } = context.auth
+      
+      // If still loading, don't make any redirect decisions yet
+      if (isLoading) {
+         return
+      }
+
+      // If no access token and not loading, redirect to sign-in
+      if (!accessToken) {
+         throw redirect({ to: "/sign-in" })
+      }
+
+      // If we have a token but no user yet, wait (this shouldn't happen but prevents loops)
+      if (!user) {
+         return
+      }
+
+      // Redirect based on user role
+      switch (user.role) {
+         case "admin":
+            throw redirect({ to: "/dashboard/admin" })
+         case "doctor":
+            throw redirect({ to: "/dashboard/doctor" })
+         case "patient":
+            throw redirect({ to: "/dashboard/patient" })
+         default:
+            throw redirect({ to: "/sign-in" })
+      }
+   },
 })
-
-function Home() {
-    const user: User = {
-        id: 1,
-        fullName: "John Doe",
-        email: "idk@gmail.com",
-        image: "https://i.pravatar.cc/150?img=3",
-        createdAt: "2023-01-01T00:00:00.000Z",
-    }
-
-    return (
-        <main className="flex-1 overflow-auto">
-            <div className="space-y-8 p-8 md:p-10">
-                <div className="space-y-2">
-                    <h2
-                        className="text-3xl font-bold text-balance"
-                        style={{ color: "var(--color-mainText)" }}
-                    >
-                        Welcome back, {user.fullName.split(" ")[0]}
-                    </h2>
-                    <p
-                        className="text-sm"
-                        style={{ color: "rgba(255, 255, 255, 0.5)" }}
-                    >
-                        {new Date().toLocaleDateString("en-US", {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                        })}
-                    </p>
-                </div>
-            </div>
-        </main>
-    )
-}

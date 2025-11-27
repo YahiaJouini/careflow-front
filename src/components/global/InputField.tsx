@@ -36,9 +36,9 @@ const InputField = ({ type = "text", ...props }: InputFieldProps) => {
                type={showPassword && type === "password" ? "text" : type}
                onChange={(e) => props.onChange(e.target.value)}
                className={cn(
-                  "bg-input text-mainText w-full rounded-md px-5 py-3 text-[15px] outline-none placeholder:text-sm focus:pl-[22px] transition-all focus:bg-none focus:ring-0 ",
+                  "bg-input text-mainText w-full rounded-md px-5 py-3 text-[15px] transition-all outline-none placeholder:text-sm focus:bg-none focus:pl-[22px] focus:ring-0",
                   props.className,
-                  props.icon && "pl-10 focus:pl-[42px]"
+                  props.icon && "pl-10 focus:pl-[42px]",
                )}
             />
             {props.icon && (
@@ -48,7 +48,8 @@ const InputField = ({ type = "text", ...props }: InputFieldProps) => {
             )}
             <button
                type="button"
-               className="absolute top-1/2 right-2.5 -translate-y-1/2 cursor-pointer">
+               className="absolute top-1/2 right-2.5 -translate-y-1/2 cursor-pointer"
+            >
                {handlePasswordDisplay()}
             </button>
          </div>

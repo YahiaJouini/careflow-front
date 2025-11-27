@@ -6,6 +6,7 @@ import { About } from "../components/landing/about"
 import { Services } from "../components/landing/services"
 import { Contact } from "../components/landing/contact"
 import { useAuth } from "@/context/authContext"
+import { Pricing } from "@/components/landing/pricing"
 
 export const Route = createFileRoute("/")({
    component: LandingPage,
@@ -23,6 +24,9 @@ function LandingPage() {
          </div>
          <div id="services">
             <Services />
+         </div>
+          <div id="services">
+            <Pricing />
          </div>
          <div id="contact">
             <Contact />

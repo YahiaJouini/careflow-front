@@ -16,11 +16,11 @@ export function Sidebar() {
       return (
          <aside
             className={cn(
-               "text-muted-foreground border-mainText/30 fixed top-0 left-0 flex h-screen flex-col border-r transition-all",
+               "text-muted-foreground border-border fixed top-0 left-0 flex h-screen flex-col border-r bg-card transition-all",
                isOpen ? "w-64" : "w-20",
             )}
          >
-            <div className="border-lightBg flex items-center justify-between border-b px-4 py-6">
+            <div className="border-border flex items-center justify-between border-b px-4 py-6">
                <Skeleton className="h-8 w-32" />
             </div>
             <div className="flex flex-1 flex-col gap-2 px-3 py-6">
@@ -28,7 +28,7 @@ export function Sidebar() {
                   <Skeleton key={i} className="h-12 w-full" />
                ))}
             </div>
-            <div className="border-lightBg border-t p-4">
+            <div className="border-border border-t p-4">
                <div className="flex items-center gap-3">
                   <Skeleton className="h-10 w-10 rounded-lg" />
                   <div className="space-y-2">
@@ -50,18 +50,18 @@ export function Sidebar() {
       <>
          <aside
             className={cn(
-               "text-muted-foreground border-mainText/30 fixed top-0 left-0 flex h-screen flex-col border-r transition-all",
+               "text-muted-foreground border-border fixed top-0 left-0 flex h-screen flex-col border-r bg-card transition-all",
                isOpen ? "w-64" : "w-20",
             )}
          >
             {/* HEADER */}
-            <div className="border-lightBg flex items-center justify-between border-b px-4 py-6">
+            <div className="border-border flex items-center justify-between border-b px-4 py-6">
                {isOpen && (
-                  <h1 className="text-mainText text-lg font-bold">CareFlow</h1>
+                  <h1 className="text-foreground text-lg font-bold">CareFlow</h1>
                )}
                <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="text-mainText hover:bg-lightBg rounded-lg p-1.5"
+                  className="text-foreground hover:bg-accent hover:text-accent-foreground rounded-lg p-1.5"
                >
                   {isOpen ? <ChevronLeft /> : <ChevronRight />}
                </button>
@@ -75,9 +75,9 @@ export function Sidebar() {
                      <Link
                         to={item.href as any}
                         key={item.href}
-                        className="text-mainText flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-semibold hover:bg-lightBg"
+                        className="text-foreground flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-semibold hover:bg-accent hover:text-accent-foreground"
                         activeProps={{
-                           className: "bg-theme pointer-events-none text-white"
+                           className: "bg-primary pointer-events-none text-primary-foreground"
                         }}
                         activeOptions={{
                            exact: true
@@ -92,7 +92,7 @@ export function Sidebar() {
             </nav>
 
             {/* FOOTER */}
-            <div className="border-lightBg border-t p-4">
+            <div className="border-border border-t p-4">
                <div className="flex items-center gap-3 px-2">
             <Avatar>
               <AvatarImage src={user?.image} alt={user?.firstName} />
@@ -103,7 +103,7 @@ export function Sidebar() {
             </Avatar>
             {isOpen && (
             <div className="flex flex-col">
-              <span className="text-sm font-medium">
+              <span className="text-sm font-medium text-foreground">
                 {user?.firstName} {user?.lastName}
               </span>
               <span className="text-xs text-muted-foreground capitalize">
@@ -116,7 +116,7 @@ export function Sidebar() {
                {isOpen && (
                   <button
                      onClick={logout}
-                     className="flex w-full items-center gap-2 rounded-lg bg-red-500 px-3 py-2 text-sm font-bold text-white hover:bg-red-700"
+                     className="flex w-full items-center gap-2 rounded-lg bg-destructive px-3 py-2 text-sm font-bold text-destructive-foreground hover:bg-destructive/90 mt-4"
                   >
                      <LogOut className="h-4 w-4" />
                      Logout

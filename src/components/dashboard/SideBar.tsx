@@ -57,7 +57,9 @@ export function Sidebar() {
             {/* HEADER */}
             <div className="border-border flex items-center justify-between border-b px-4 py-6">
                {isOpen && (
-                  <h1 className="text-foreground text-lg font-bold">CareFlow</h1>
+                  <Link to="/dashboard" className="text-foreground text-lg font-bold">
+                     CareFlow
+                  </Link>
                )}
                <button
                   onClick={() => setIsOpen(!isOpen)}

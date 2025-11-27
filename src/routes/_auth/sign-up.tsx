@@ -1,7 +1,7 @@
+import { createFileRoute, Link } from "@tanstack/react-router"
 import Verification from "@/components/auth/Verification"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
-import { createFileRoute, Link } from "@tanstack/react-router"
 import axios from "axios"
 import { ClipboardList, Lock, Mail, User } from "lucide-react"
 import { useState } from "react"

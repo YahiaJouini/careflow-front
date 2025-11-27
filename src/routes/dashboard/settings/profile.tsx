@@ -42,6 +42,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { ModeToggle } from "@/components/mode-toggle"
 
 // @ts-ignore
 export const Route = createFileRoute("/dashboard/settings/profile")({
@@ -300,6 +301,24 @@ function ProfilePage() {
           </div>
         </form>
       </Form>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Appearance</CardTitle>
+          <CardDescription>
+            Customize the look and feel of the application
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex items-center justify-between">
+          <div className="space-y-1">
+            <p className="font-medium">Theme Preference</p>
+            <p className="text-sm text-muted-foreground">
+              Select your preferred theme mode
+            </p>
+          </div>
+          <ModeToggle />
+        </CardContent>
+      </Card>
 
       <Card className="border-destructive/50">
         <CardHeader>

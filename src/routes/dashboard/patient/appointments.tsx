@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon, Clock, User } from "lucide-react"
+import { Calendar as CalendarIcon, Clock } from "lucide-react"
 import { getMyAppointments, cancelAppointment } from "@/api/patient"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import Loader from "@/components/global/Loader"
 import { Appointment } from "@/types/appointment"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export const Route = createFileRoute("/dashboard/patient/appointments")({
   component: MyAppointments,
@@ -88,9 +89,17 @@ function MyAppointments() {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
-                    <CardTitle className="flex items-center gap-2">
-                      <User className="h-5 w-5 text-muted-foreground" />
-                      Dr. {appointment.doctor?.user.firstName} {appointment.doctor?.user.lastName}
+                    <CardTitle className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={appointment.doctor?.user.image} alt={appointment.doctor?.user.firstName} />
+                        <AvatarFallback>
+                          {appointment.doctor?.user.firstName[0]}
+                          {appointment.doctor?.user.lastName[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span>
+                        Dr. {appointment.doctor?.user.firstName} {appointment.doctor?.user.lastName}
+                      </span>
                     </CardTitle>
                     <CardDescription>
                       {appointment.doctor?.specialty.name}

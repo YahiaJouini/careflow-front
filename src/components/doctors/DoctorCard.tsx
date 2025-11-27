@@ -1,12 +1,12 @@
 import { useState } from "react"
 import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
-import { User } from "lucide-react"
+import { Stethoscope } from "lucide-react"
 import { PublicDoctor } from "@/types/doctor"
 import { useAuth } from "@/context/authContext"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BookingDialog } from "./BookingDialog"
 
 interface DoctorCardProps {
@@ -41,29 +41,32 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
   return (
     <>
       <Card className="flex flex-col h-full hover:shadow-lg transition-shadow">
-        <CardHeader className="space-y-4">
-          <div className="flex items-start gap-4">
-            <div className="bg-primary/10 flex h-16 w-16 items-center justify-center rounded-full">
-              <User className="h-8 w-8 text-primary" />
+        <CardHeader className="flex flex-row items-center gap-4">
+            <Avatar className="h-12 w-12">
+               <AvatarImage src={doctor.user.image} alt={doctor.user.firstName} />
+               <AvatarFallback>
+                  {doctor.user.firstName[0]}
+                  {doctor.user.lastName[0]}
+               </AvatarFallback>
+            </Avatar>
+            <div className="flex-1">
+               <CardTitle className="text-lg">
+                  Dr. {doctor.user.firstName} {doctor.user.lastName}
+               </CardTitle>
+               <CardDescription className="flex items-center gap-1">
+                  {doctor.specialty.icon ? (
+                     <img 
+                        src={doctor.specialty.icon} 
+                        alt={doctor.specialty.name}
+                        className="h-4 w-4 object-contain"
+                     />
+                  ) : (
+                     <Stethoscope className="h-4 w-4" />
+                  )}
+                  {doctor.specialty.name}
+               </CardDescription>
             </div>
-            <div className="flex-1 space-y-1">
-              <h3 className="text-lg font-semibold">
-                Dr. {doctor.user.firstName} {doctor.user.lastName}
-              </h3>
-              <Badge variant="secondary" className="text-xs flex items-center gap-1">
-                <img 
-                  src={doctor.specialty.icon} 
-                  alt={doctor.specialty.name}
-                  className="h-4 w-4 object-contain"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none'
-                  }}
-                />
-                {doctor.specialty.name}
-              </Badge>
-            </div>
-          </div>
-        </CardHeader>
+         </CardHeader>
 
         <CardContent className="flex-1">
           <p className="text-muted-foreground text-sm line-clamp-3">

@@ -112,7 +112,7 @@ export function Pricing() {
                         <div className="space-y-3">
                            {plan.features.map((feature, i) => (
                               <div key={i} className="flex items-start gap-3">
-                                 <span className="text-accent mt-1">✓</span>
+                                 <span className="text-green-600 font-bold mt-1">✓</span>
                                  <span className="text-muted-foreground text-sm">
                                     {feature}
                                  </span>

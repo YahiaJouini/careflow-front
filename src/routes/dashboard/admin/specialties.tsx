@@ -106,7 +106,7 @@ function SpecialtiesPage() {
    }
 
    return (
-      <div className="container mx-auto py-8">
+      <div className="">
          <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                <div>

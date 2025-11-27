@@ -41,6 +41,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
 import Loader from "@/components/global/Loader"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export const Route = createFileRoute("/dashboard/admin/users")({
    component: UsersPage,
@@ -144,7 +145,7 @@ function UsersPage() {
    }
 
    return (
-      <div className="container mx-auto py-8">
+      <div>
          <Card>
             <CardHeader>
                <div className="flex flex-row items-center justify-between">
@@ -196,7 +197,18 @@ function UsersPage() {
                         <TableRow key={user.id}>
                            <TableCell>{user.id}</TableCell>
                            <TableCell className="font-medium">
-                              {user.firstName} {user.lastName}
+                              <div className="flex items-center gap-3">
+                                 <Avatar>
+                                    <AvatarImage src={user.image} alt={user.firstName} />
+                                    <AvatarFallback>
+                                       {user.firstName[0]}
+                                       {user.lastName[0]}
+                                    </AvatarFallback>
+                                 </Avatar>
+                                 <span>
+                                    {user.firstName} {user.lastName}
+                                 </span>
+                              </div>
                            </TableCell>
                            <TableCell>{user.email}</TableCell>
                            <TableCell>

@@ -8,7 +8,7 @@ export const Route = createFileRoute("/dashboard/admin/logs")({
 
 function SystemLogsPage() {
    return (
-      <div className="container mx-auto py-8">
+      <div className="">
          <Card>
             <CardHeader>
                <div className="flex items-center gap-3">

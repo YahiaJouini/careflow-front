@@ -20,7 +20,7 @@ function Layout() {
    return (
       <div className="relative flex min-h-screen w-full">
          <Sidebar />
-         <main className="bg-background flex-1 overflow-auto p-6">
+         <main className="container mx-auto bg-background flex-1 overflow-auto py-12">
             <Outlet />
          </main>
       </div>

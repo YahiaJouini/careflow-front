@@ -8,8 +8,14 @@ import { AuthState } from "../types/auth"
 type RouterContext = {
    auth: AuthState
 }
+import { ThemeProvider } from "@/components/theme-provider"
+
 export const Route = createRootRouteWithContext<RouterContext>()({
-   component: () => <Outlet />,
+   component: () => (
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+         <Outlet />
+      </ThemeProvider>
+   ),
    notFoundComponent: () => {
       return (
          <div>

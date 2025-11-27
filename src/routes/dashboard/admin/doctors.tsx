@@ -43,7 +43,7 @@ function DoctorsPage() {
    }
 
    return (
-      <div className="container mx-auto py-8">
+      <div>
          <Card>
             <CardHeader>
                <CardTitle>Doctor Management</CardTitle>

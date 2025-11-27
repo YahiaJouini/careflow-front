@@ -82,7 +82,7 @@ export function Sidebar() {
                         key={item.href}
                         className="text-mainText flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-semibold hover:bg-lightBg"
                         activeProps={{
-                           className: "bg-theme text-white"
+                           className: "bg-theme pointer-events-none text-white"
                         }}
                         activeOptions={{
                            exact: true

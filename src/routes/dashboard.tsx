@@ -1,13 +1,15 @@
 import { Sidebar } from "@/components/dashboard/SideBar"
 import { Outlet, redirect } from "@tanstack/react-router"
+import { verifySession } from "@/api/auth"
 
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/dashboard")({
    component: Layout,
-   beforeLoad: async ({ location, context }) => {
-       const { isLoading, accessToken } = context.auth
-       if (!accessToken && !isLoading) {
+   beforeLoad: async ({ location }) => {
+       try {
+           await verifySession()
+       } catch (error) {
            throw redirect({
                to: "/sign-in",
                search: { redirect: location.href },

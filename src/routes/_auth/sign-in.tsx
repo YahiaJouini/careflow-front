@@ -16,6 +16,7 @@ import { USER_QUERY_KEY } from "../../lib/constants"
 import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import Verification from "@/components/auth/Verification"
+import GoogleLoginButton from "@/components/auth/GoogleLoginButton"
 
 export const Route = createFileRoute("/_auth/sign-in")({
    component: SignIn,
@@ -128,8 +129,30 @@ function SignIn() {
                loading={form.formState.isSubmitting}
                disabled={!form.formState.isValid}
             />
+
+            <div className="relative">
+               <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+               </div>
+               <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                     Or continue with
+                  </span>
+               </div>
+            </div>
+
+            <GoogleLoginButton />
+
             <div className="text-center text-sm">
-               Don't have an account?{" "}
+               <Link
+                  to="/forgot-password"
+                  className="text-primary hover:underline block mb-2"
+               >
+                  Forgot your password?
+               </Link>
+               <span className="text-muted-foreground">
+                  Don&apos;t have an account?{" "}
+               </span>
                <Link
                   to="/sign-up"
                   className="text-theme font-medium hover:underline"
